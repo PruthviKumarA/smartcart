@@ -1,0 +1,25 @@
+# Build
+target/
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+*.log
+
+# Docker volumes
+postgres_data/
