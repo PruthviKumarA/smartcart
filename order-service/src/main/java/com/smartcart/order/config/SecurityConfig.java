@@ -16,46 +16,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Spring Security Configuration - Spring Boot 3.x style.
- *
- * INTERVIEW QUESTION: "What changed in Spring Boot 3.x security?"
- * ANSWER: "WebSecurityConfigurerAdapter was removed. Now we define a
- * SecurityFilterChain @Bean. Also javax.* migrated to jakarta.*."
- */
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity  // enables @PreAuthorize
-@RequiredArgsConstructor
+@Configuration @EnableWebSecurity @EnableMethodSecurity @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.disable())  // disable CSRF for REST APIs
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        return http.csrf(c -> c.disable())
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
-                        // Everything else requires authentication
-                        .anyRequest().authenticated()
-                )
-                .headers(headers -> headers.frameOptions(f -> f.disable()))  // for H2 console
+                        .anyRequest().authenticated())
+                .headers(h -> h.frameOptions(f -> f.disable()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+    @Bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    @Bean public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception { return config.getAuthenticationManager(); }
 }

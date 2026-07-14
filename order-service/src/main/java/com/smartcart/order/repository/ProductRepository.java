@@ -10,18 +10,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-
     Page<Product> findByActiveTrue(Pageable pageable);
-
     Page<Product> findByCategoryAndActiveTrue(String category, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.active = true AND p.price BETWEEN :minPrice AND :maxPrice")
-    Page<Product> findByPriceRange(@Param("minPrice") BigDecimal minPrice,
-                                   @Param("maxPrice") BigDecimal maxPrice,
-                                   Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE p.active = true AND p.price BETWEEN :min AND :max")
+    Page<Product> findByPriceRange(@Param("min") BigDecimal min, @Param("max") BigDecimal max, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.active = true AND LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    Page<Product> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE p.active = true AND LOWER(p.name) LIKE LOWER(CONCAT(\'%\', :kw, \'%\'))")
+    Page<Product> searchByKeyword(@Param("kw") String keyword, Pageable pageable);
 
     List<Product> findByIdIn(List<Long> ids);
 }

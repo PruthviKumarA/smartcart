@@ -7,14 +7,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDtos {
-
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor
     public static class CreateOrderRequest {
-        @NotBlank(message = "Shipping address is required")
-        private String shippingAddress;
-
-        @NotEmpty(message = "Order must have at least one item")
-        private List<OrderItemRequest> items;
+        @NotBlank private String shippingAddress;
+        @NotEmpty private List<OrderItemRequest> items;
     }
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor

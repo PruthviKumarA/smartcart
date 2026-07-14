@@ -4,15 +4,11 @@ import com.smartcart.order.dto.AuthDtos.*;
 import com.smartcart.order.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/auth")
-@RequiredArgsConstructor
+@RestController @RequestMapping("/api/auth") @RequiredArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
 
     @PostMapping("/register")

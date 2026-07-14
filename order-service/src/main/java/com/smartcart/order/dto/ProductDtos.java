@@ -6,24 +6,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class ProductDtos {
-
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor
     public static class CreateProductRequest {
-        @NotBlank(message = "Product name is required")
-        private String name;
-
+        @NotBlank private String name;
         private String description;
-
-        @NotNull(message = "Price is required")
-        @DecimalMin(value = "0.01", message = "Price must be greater than 0")
-        private BigDecimal price;
-
-        @NotBlank(message = "Category is required")
-        private String category;
-
-        @NotNull @Min(0)
-        private Integer stockQuantity;
-
+        @NotNull @DecimalMin("0.01") private BigDecimal price;
+        @NotBlank private String category;
+        @NotNull @Min(0) private Integer stockQuantity;
         private String imageUrl;
     }
 
